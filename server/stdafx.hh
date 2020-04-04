@@ -27,9 +27,6 @@
 #include "cpprest/containerstream.h"
 #include "cpprest/producerconsumerstream.h"
 
-#pragma warning ( push )
-#pragma warning ( disable : 4457 )
-#pragma warning ( pop )
 #include <locale>
 #include <ctime>
 #endif // STDAFX_H_INCLUDED

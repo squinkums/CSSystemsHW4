@@ -34,13 +34,12 @@ public:
 
     Impl(std::string host, std::string port)
     {
-        using convert_type = std::codecvt_utf8<wchar_t>;
-        std::wstring_convert<convert_type, wchar_t> converter;
+ 
 
         //use converter (.to_bytes: wstr->str, .from_bytes: str->wstr)
 
-        this->address = converter.from_bytes(host);
-        this->address.append(converter.from_bytes(port));
+        this->address = host;
+        this->address.append(port);
 
     }
     //The main thing to deal with is to clear all the data from hashtable. We don't have chained deletion for Link_list, so we need to go
@@ -67,16 +66,14 @@ public:
         http_client client(address);
 
         // Build request URI and start the request.
-        using convert_type = std::codecvt_utf8<wchar_t>;
-        std::wstring_convert<convert_type, wchar_t> converter;
     	
-        uri_builder builder(converter.from_bytes('/'+key));
+        uri_builder builder("/"+key);
         std::string s = "/";
     	for(auto i = 0;i<size;i++)
     	{
             s = s + val[i];
     	}
-        builder.append(converter.from_bytes(s));
+        builder.append(s);
 
         client.request(methods::PUT, builder.to_string())
 
@@ -93,7 +90,7 @@ public:
             .then([](web::json::value content)
                 {
 
-                    ucout << content[U("response")].as_string() << std::endl;
+                    std::cout << content["response"].as_string() << std::endl;
                 })
 
 
@@ -112,13 +109,11 @@ public:
         http_client client(address);
         //BUG:: I will pass the val_size as well even though the API does not require so. Otherwise the APIs' does not match. 
         // Build request URI and start the request.
-        using convert_type = std::codecvt_utf8<wchar_t>;
-        std::wstring_convert<convert_type, wchar_t> converter;
 
-        uri_builder builder(converter.from_bytes('/' + key));
+        uri_builder builder("/" + key);
         std::string s = "/";
         s = s+std::to_string(val_size);
-        builder.append(converter.from_bytes(s));
+        builder.append(s);
         std::string val;
         bool in_cache;
         client.request(methods::GET, builder.to_string())
@@ -143,17 +138,16 @@ public:
             .then([&](web::json::value content)
                 {
 
-                    ucout << content[U("response")].as_string() << std::endl;
+                    std::cout << content["response"].as_string() << std::endl;
                     if (in_cache) {
-                        using convert_type = std::codecvt_utf8<wchar_t>;
-                        std::wstring_convert<convert_type, wchar_t> converter;
-                        val = converter.to_bytes(content[U("value")].as_string());
+                        val = content[U("value")].as_string();
                     }
         			
                 })
 
 
                     .wait();
+
                 if (in_cache) {
                     auto res = new char[val.length()];
                     for (auto i = 0; i < val.length(); i++)
@@ -174,10 +168,8 @@ public:
     {
 
         http_client client(address);
-        using convert_type = std::codecvt_utf8<wchar_t>;
-        std::wstring_convert<convert_type, wchar_t> converter;
         string_t in_cache;
-        uri_builder builder(converter.from_bytes('/' + key));
+        uri_builder builder("/" + key);
         client.request(methods::DEL, builder.to_string())
 
 
@@ -193,14 +185,14 @@ public:
             .then([&](web::json::value content)
                 {
 
-                    ucout << content[U("response")].as_string() << std::endl;
-                    in_cache = content[U("in_cache")].as_string();
+                    std::cout << content["response"].as_string() << std::endl;
+                    in_cache = content["in_cache"].as_string();
 
                 })
 
 
                     .wait();
-    	if(in_cache == U("0"))
+    	if(in_cache == "0")
     	{
             return false;
     	}
@@ -213,10 +205,8 @@ public:
     {
     	//Note we are using $GET /HEAD/HEAD$ instead of the actual HEAD request
         http_client client(address);
-        auto builder = U("/HEAD/HEAD");
+        auto builder = "/HEAD/HEAD";
         std::string res;
-        using convert_type = std::codecvt_utf8<wchar_t>;
-        std::wstring_convert<convert_type, wchar_t> converter;
 
         client.request(methods::GET, builder)
 
@@ -229,8 +219,8 @@ public:
             .then([&](web::json::value content)
                 {
 
-                    ucout << content[U("response")].as_string() << std::endl;
-                    res = converter.to_bytes(content[U("size")].as_string());
+                    std::cout << content["response"].as_string() << std::endl;
+                    res = content["size"].as_string();
 
                 })
 
@@ -243,7 +233,7 @@ public:
     void reset()
     {
         http_client client(address);
-        string_t message = U("/reset");
+        string_t message = "/reset";
 
         client.request(methods::POST,message)
 
@@ -256,7 +246,7 @@ public:
             .then([&](web::json::value content)
                 {
 
-                    ucout << content[U("response")].as_string() << std::endl;
+                    std::cout << content["response"].as_string() << std::endl;
 
                 })
 

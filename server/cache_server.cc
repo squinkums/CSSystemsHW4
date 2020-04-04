@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
   //std::string port = "34568";
   //auto threads = 0;
 
-
+  
 
 	
   using convert_type = codecvt_utf8<wchar_t>;
@@ -61,11 +61,11 @@ int main(int argc, char* argv[])
 
   server.append(":");
   server.append(port);
-  utility::string_t userver = converter.from_bytes(server);
-  g_httpHandler = std::unique_ptr<handler>(new handler(userver,maxmem,0.75,nullptr, std::hash<key_type>()));
+  g_httpHandler = std::unique_ptr<handler>(new handler(server,maxmem,0.75,nullptr, std::hash<key_type>()));
   g_httpHandler->open().wait();
   
-  ucout << utility::string_t(U("Listening for requests at: ")) << userver << std::endl;
+  ucout << utility::string_t(U("Listening for requests at: ")) << server << std::endl;
+  std::cout << "Threads: " << threads << std::endl;
   std::cout << "Press ENTER to exit." << std::endl;
 
   std::string line;
