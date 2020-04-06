@@ -3,7 +3,6 @@
 #include <cassert>
 #include <chrono>
 #include <thread>
-#pragma once
 
 #include <cpprest/http_client.h>
 #include <cpprest/filestream.h>
@@ -157,24 +156,24 @@ void deep_copy_test(Cache* my_cache)
 
 }
 
-void resize_test()
-{
+//void resize_test()
+//{
 	//This is implementation-specific but still useful 
-	auto my_cache = new Cache(400);
-	for (auto i = 0; i < 100; i++)
-	{
-		key_type const my_key1 = std::to_string(i);
-		auto const my_value1 = new char[3];
-		my_value1[0] = 'a';
-		my_value1[1] = 'b';
-		my_value1[2] = 'c';
-		my_cache->set(my_key1, my_value1, 3);
-		delete[] my_value1;
-	}
-	assert(my_cache->space_used() == 300);
-	delete my_cache;
+//	auto my_cache = new Cache(400);
+//	for (auto i = 0; i < 100; i++)
+//	{
+//		key_type const my_key1 = std::to_string(i);
+//		auto const my_value1 = new char[3];
+//		my_value1[0] = 'a';
+//		my_value1[1] = 'b';
+//		my_value1[2] = 'c';
+//		my_cache->set(my_key1, my_value1, 3);
+//		delete[] my_value1;
+//	}
+//	assert(my_cache->space_used() == 300);
+//	delete my_cache;
 
-}
+//}
 
 void Collision_test(Cache* my_cache)
 {

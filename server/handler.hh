@@ -18,8 +18,12 @@ namespace web {
 using namespace std;
 using namespace web;
 using namespace http;
+using namespace web::http;                  
+using namespace web::http::client;         
+using namespace concurrency::streams;       
 using namespace utility;
-
+using namespace web::http::experimental::listener;         
+using namespace web::json;
 
 class handler
 {

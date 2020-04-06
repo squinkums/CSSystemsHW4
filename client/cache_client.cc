@@ -69,7 +69,7 @@ public:
     	
         uri_builder builder("/"+key);
         std::string s = "/";
-    	for(auto i = 0;i<size;i++)
+    	for(unsigned int i = 0;i<size;i++)
     	{
             s = s + val[i];
     	}
@@ -150,7 +150,7 @@ public:
 
                 if (in_cache) {
                     auto res = new char[val.length()];
-                    for (auto i = 0; i < val.length(); i++)
+                    for (long unsigned int i = 0; i < val.length(); i++)
                     {
                         res[i] = val[i];
                     }
@@ -280,13 +280,15 @@ private:
 
 
 
-Cache::Cache(size_type maxmem,
-    float max_load_factor,
-    Evictor* evictor,
-    hash_func hasher)
-{
+//Cache::Cache(size_type maxmem,
+//	     float max_load_factor,
+//	     Evictor* evictor,
+//	     hash_func hasher)
+
+   
+//{
 	
-}
+//}
 
 
 Cache::~Cache() = default;

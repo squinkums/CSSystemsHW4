@@ -1,5 +1,6 @@
 #include "handler.hh"
 #include <codecvt>
+#include "stdafx.hh"
 
 handler::handler(utility::string_t url, Cache::size_type maxmem,
                  float max_load_factor,
